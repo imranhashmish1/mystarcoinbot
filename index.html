@@ -1,617 +1,665 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Star Coin</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STAR COIN</title>
 
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
 
-    body {
-      background: #0f1117;
-      color: white;
-      padding: 18px;
-    }
+body{
+  background:
+    radial-gradient(circle at top,#27213d 0,#11131d 38%,#080a10 100%);
+  color:#fff;
+  min-height:100vh;
+  padding:16px;
+}
 
-    .app {
-      max-width: 520px;
-      margin: auto;
-    }
+.app{
+  max-width:520px;
+  margin:auto;
+}
 
-    .header {
-      text-align: center;
-      margin: 10px 0 20px;
-    }
+.header{
+  text-align:center;
+  padding:18px 10px 22px;
+}
 
-    .logo {
-      font-size: 55px;
-      margin-bottom: 8px;
-    }
+.logo{
+  width:88px;
+  height:88px;
+  margin:auto;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:50px;
+  background:linear-gradient(145deg,#ffe889,#f5c542,#b77a00);
+  box-shadow:0 0 35px rgba(245,197,66,.35);
+  border:4px solid rgba(255,255,255,.15);
+}
 
-    h1 {
-      font-size: 28px;
-    }
+h1{
+  font-size:30px;
+  margin-top:15px;
+  letter-spacing:1px;
+}
 
-    h2 {
-      font-size: 22px;
-    }
+.subtitle{
+  color:#9da4b6;
+  margin-top:6px;
+}
 
-    .subtitle {
-      color: #9ca3af;
-      margin-top: 6px;
-    }
+.card{
+  background:rgba(25,29,39,.92);
+  border:1px solid #303747;
+  border-radius:22px;
+  padding:20px;
+  margin-bottom:15px;
+  box-shadow:0 12px 30px rgba(0,0,0,.25);
+}
 
-    .card {
-      background: #191d27;
-      border: 1px solid #292f3d;
-      border-radius: 18px;
-      padding: 20px;
-      margin-bottom: 15px;
-    }
+.balance{
+  text-align:center;
+}
 
-    .balance {
-      text-align: center;
-    }
+.balance-title{
+  color:#9ca3af;
+  font-size:13px;
+  letter-spacing:1px;
+}
 
-    .balance-title {
-      color: #9ca3af;
-      font-size: 14px;
-    }
+.balance-number{
+  font-size:38px;
+  font-weight:bold;
+  margin:9px 0;
+}
 
-    .balance-number {
-      font-size: 38px;
-      font-weight: bold;
-      margin: 8px 0;
-    }
+.coin{
+  color:#f5c542;
+}
 
-    .coin {
-      color: #f5c542;
-    }
+.price{
+  color:#aeb4c0;
+}
 
-    .price {
-      color: #9ca3af;
-    }
+.price b{
+  color:#65d68a;
+}
 
-    .mine-btn {
-      width: 100%;
-      border: none;
-      border-radius: 15px;
-      padding: 18px;
-      font-size: 20px;
-      font-weight: bold;
-      background: #f5c542;
-      color: #111;
-      cursor: pointer;
-      margin-top: 15px;
-    }
+.mine-btn{
+  width:100%;
+  border:0;
+  border-radius:16px;
+  padding:18px;
+  font-size:19px;
+  font-weight:bold;
+  background:linear-gradient(135deg,#ffe57a,#f5c542);
+  color:#111;
+  cursor:pointer;
+  margin-top:17px;
+  box-shadow:0 8px 22px rgba(245,197,66,.18);
+}
 
-    .mine-btn:disabled {
-      opacity: .5;
-      cursor: not-allowed;
-    }
+.mine-btn:disabled{
+  opacity:.5;
+}
 
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
+.notice{
+  color:#9ca3af;
+  font-size:13px;
+  line-height:1.5;
+  margin-top:12px;
+}
 
-    .stat {
-      background: #191d27;
-      border-radius: 15px;
-      padding: 15px;
-      text-align: center;
-      border: 1px solid #292f3d;
-    }
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-bottom:15px;
+}
 
-    .stat-number {
-      font-size: 22px;
-      font-weight: bold;
-      margin-top: 5px;
-    }
+.stat{
+  background:#191d27;
+  border:1px solid #292f3d;
+  border-radius:18px;
+  padding:17px;
+  text-align:center;
+}
 
-    .menu {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 15px;
-    }
+.stat-icon{
+  font-size:25px;
+}
 
-    .menu button {
-      padding: 14px 8px;
-      border: 1px solid #303746;
-      border-radius: 13px;
-      background: #191d27;
-      color: white;
-      font-size: 15px;
-      cursor: pointer;
-    }
+.stat-number{
+  font-size:21px;
+  font-weight:bold;
+  margin-top:6px;
+}
 
-    .section {
-      display: none;
-    }
+.menu{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:11px;
+}
 
-    .section.active {
-      display: block;
-    }
+.menu button{
+  padding:16px 8px;
+  border:1px solid #303746;
+  border-radius:16px;
+  background:linear-gradient(145deg,#1c212d,#151923);
+  color:white;
+  font-size:15px;
+  cursor:pointer;
+}
 
-    .back {
-      background: #252b38;
-      color: white;
-      border: none;
-      padding: 11px 16px;
-      border-radius: 10px;
-      margin-bottom: 15px;
-      cursor: pointer;
-    }
+.menu button:active{
+  transform:scale(.97);
+}
 
-    input {
-      width: 100%;
-      padding: 14px;
-      margin-top: 8px;
-      margin-bottom: 15px;
-      border-radius: 10px;
-      border: 1px solid #353c4b;
-      background: #10131a;
-      color: white;
-      font-size: 15px;
-    }
+.special{
+  grid-column:1 / -1;
+  background:linear-gradient(135deg,#20283a,#171b28)!important;
+}
 
-    label {
-      color: #aeb4c0;
-      font-size: 14px;
-    }
+.channel{
+  background:linear-gradient(135deg,#1689d7,#1265a4)!important;
+  border:0!important;
+}
 
-    .action {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 11px;
-      background: #f5c542;
-      color: #111;
-      font-weight: bold;
-      font-size: 16px;
-      cursor: pointer;
-    }
+.support{
+  background:linear-gradient(135deg,#4932a8,#302077)!important;
+  border:0!important;
+}
 
-    .notice {
-      color: #9ca3af;
-      font-size: 13px;
-      line-height: 1.5;
-      margin-top: 12px;
-    }
+.section{
+  display:none;
+}
 
-    .success {
-      color: #65d68a;
-      margin-top: 12px;
-    }
+.section.active{
+  display:block;
+}
 
-    .warning {
-      color: #f5c542;
-      font-size: 13px;
-      line-height: 1.5;
-      margin-top: 12px;
-    }
+.back{
+  background:#252b38;
+  color:white;
+  border:0;
+  padding:11px 16px;
+  border-radius:11px;
+  margin-bottom:15px;
+  cursor:pointer;
+}
 
-    .refbox {
-      background: #10131a;
-      border: 1px solid #303746;
-      padding: 12px;
-      border-radius: 10px;
-      word-break: break-all;
-      color: #d6d9df;
-      margin: 10px 0;
-    }
+.action{
+  width:100%;
+  padding:15px;
+  border:0;
+  border-radius:13px;
+  background:linear-gradient(135deg,#ffe57a,#f5c542);
+  color:#111;
+  font-weight:bold;
+  font-size:16px;
+  cursor:pointer;
+}
 
-    .qr {
-      display: block;
-      width: 220px;
-      height: 220px;
-      margin: 15px auto;
-      padding: 10px;
-      background: white;
-      border-radius: 15px;
-    }
+input{
+  width:100%;
+  padding:14px;
+  margin-top:8px;
+  margin-bottom:15px;
+  border-radius:11px;
+  border:1px solid #353c4b;
+  background:#10131a;
+  color:white;
+  font-size:15px;
+}
 
-    .network {
-      text-align: center;
-      background: #10131a;
-      border: 1px solid #303746;
-      padding: 12px;
-      border-radius: 10px;
-      margin: 15px 0;
-    }
-  </style>
+label{
+  color:#aeb4c0;
+  font-size:14px;
+}
+
+.refbox,
+.address{
+  background:#10131a;
+  border:1px solid #303746;
+  padding:13px;
+  border-radius:11px;
+  word-break:break-all;
+  color:#d6d9df;
+  margin:12px 0;
+}
+
+.success{
+  color:#65d68a;
+  margin-top:12px;
+}
+
+.qr{
+  width:220px;
+  height:220px;
+  display:block;
+  margin:18px auto;
+  border-radius:15px;
+  background:white;
+  padding:8px;
+}
+
+.deposit-network{
+  text-align:center;
+  color:#65d68a;
+  font-weight:bold;
+  margin-top:8px;
+}
+
+.footer{
+  text-align:center;
+  color:#70798a;
+  font-size:12px;
+  margin:25px 0 10px;
+}
+</style>
 </head>
 
 <body>
 
 <div class="app">
 
-  <!-- HOME -->
-  <div id="home" class="section active">
+<!-- HOME -->
+<div id="home" class="section active">
 
-    <div class="header">
-      <div class="logo">⭐</div>
-      <h1>My Star Coin</h1>
-      <div class="subtitle">Telegram Mining App</div>
+  <div class="header">
+    <div class="logo">⭐</div>
+    <h1>STAR COIN</h1>
+    <div class="subtitle">Next Generation Mining</div>
+  </div>
+
+  <div class="card balance">
+    <div class="balance-title">YOUR STAR BALANCE</div>
+
+    <div class="balance-number">
+      <span id="balance">0.000000</span>
+      <span class="coin"> STAR</span>
     </div>
 
-    <div class="card balance">
-      <div class="balance-title">YOUR BALANCE</div>
-
-      <div class="balance-number">
-        <span id="balance">0.000000</span>
-        <span class="coin"> STAR</span>
-      </div>
-
-      <div class="price">
-        Coin Price: <b>$0.50</b>
-      </div>
-
-      <button id="mineButton" class="mine-btn">
-        ⛏️ START MINING
-      </button>
-
-      <div id="timer" class="notice">
-        Mining is ready
-      </div>
+    <div class="price">
+      1 STAR = <b>$0.50</b>
     </div>
 
-    <div class="grid">
+    <button id="mineButton" class="mine-btn">
+      ⛏️ START MINING
+    </button>
 
-      <div class="stat">
-        <div>🪙</div>
-        <div class="stat-number" id="today">0.000000</div>
-        <small>Today</small>
-      </div>
+    <div id="timer" class="notice">
+      Mining is ready
+    </div>
+  </div>
 
-      <div class="stat">
-        <div>💵</div>
-        <div class="stat-number" id="usd">$0.00</div>
-        <small>USD Value</small>
-      </div>
+  <div class="grid">
 
+    <div class="stat">
+      <div class="stat-icon">🪙</div>
+      <div class="stat-number" id="today">0.000000</div>
+      <small>Today</small>
     </div>
 
-    <div class="menu">
-
-      <button onclick="showSection('balancePage')">
-        💰 Balance
-      </button>
-
-      <button onclick="showSection('deposit')">
-        💵 Deposit
-      </button>
-
-      <button onclick="showSection('referral')">
-        👥 Referral
-      </button>
-
-      <button onclick="showSection('withdraw')">
-        💳 Withdraw
-      </button>
-
-      <button onclick="showSection('earnings')">
-        📊 Earnings
-      </button>
-
+    <div class="stat">
+      <div class="stat-icon">💵</div>
+      <div class="stat-number" id="usd">$0.00</div>
+      <small>USD Value</small>
     </div>
 
   </div>
 
+  <div class="menu">
 
-  <!-- BALANCE -->
-  <div id="balancePage" class="section">
-
-    <button class="back" onclick="showSection('home')">
-      ← Back
+    <button onclick="showSection('balancePage')">
+      💰 Balance
     </button>
 
-    <div class="card">
+    <button onclick="showSection('deposit')">
+      📥 Deposit
+    </button>
 
-      <h2>💰 My Balance</h2>
+    <button onclick="showSection('referral')">
+      👥 Referral
+    </button>
 
-      <br>
+    <button onclick="showSection('withdraw')">
+      💳 Withdraw
+    </button>
 
-      <div class="balance-number">
-        <span id="balance2">0.000000</span> STAR
-      </div>
+    <button onclick="showSection('earnings')">
+      📊 Earnings
+    </button>
 
-      <p class="notice">
-        StarCoin price: $0.50
-      </p>
+    <button class="channel"
+      onclick="window.open('https://t.me/mystarcoinofficial','_blank')">
+      📢 Official Channel
+    </button>
 
-    </div>
+    <button class="support special"
+      onclick="window.open('https://t.me/mystarcoinofficial','_blank')">
+      💬 Contact / Support
+    </button>
 
   </div>
 
-
-  <!-- DEPOSIT -->
-  <div id="deposit" class="section">
-
-    <button class="back" onclick="showSection('home')">
-      ← Back
-    </button>
-
-    <div class="card">
-
-      <h2>💵 Deposit USDT</h2>
-
-      <br>
-
-      <div class="network">
-        <b>Network</b><br>
-        USDT BEP20 (BSC)
-      </div>
-
-      <p class="notice">
-        Send USDT only through the BEP20 (BSC) network.
-      </p>
-
-      <!-- QR CODE -->
-      <img
-        class="qr"
-        src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=0xc89c82d9fa31a5cc1c561accfc1a1d85e0f0d7bc"
-        alt="USDT BEP20 QR Code"
-      >
-
-      <label>
-        USDT BEP20 Deposit Address
-      </label>
-
-      <div class="refbox" id="depositAddress">
-        0xc89c82d9fa31a5cc1c561accfc1a1d85e0f0d7bc
-      </div>
-
-      <button class="action" onclick="copyDepositAddress()">
-        📋 Copy Deposit Address
-      </button>
-
-      <div id="depositMessage" class="success"></div>
-
-      <p class="warning">
-        ⚠️ Important: Send USDT only on BEP20 (BSC).
-        Do not send other networks or tokens to this address.
-      </p>
-
-      <br>
-
-      <div class="price">
-        STAR Coin Price: <b>$0.50</b>
-      </div>
-
-    </div>
-
+  <div class="footer">
+    ⭐ STAR COIN • Powered by the community
   </div>
 
+</div>
 
-  <!-- REFERRAL -->
-  <div id="referral" class="section">
 
-    <button class="back" onclick="showSection('home')">
-      ← Back
-    </button>
+<!-- BALANCE -->
+<div id="balancePage" class="section">
 
-    <div class="card">
+  <button class="back" onclick="showSection('home')">
+    ← Back
+  </button>
 
-      <h2>👥 Referral</h2>
+  <div class="card">
+    <h2>💰 My Balance</h2>
+    <br>
 
-      <br>
-
-      <p>
-        Invite friends and build your community.
-      </p>
-
-      <div class="refbox" id="refLink">
-        Loading referral link...
-      </div>
-
-      <button class="action" onclick="copyReferral()">
-        📋 Copy Referral Link
-      </button>
-
-      <div id="copyMessage" class="success"></div>
-
+    <div class="balance-number">
+      <span id="balance2">0.000000</span> STAR
     </div>
 
+    <p class="notice">
+      Current STAR price: $0.50
+    </p>
   </div>
 
+</div>
 
-  <!-- WITHDRAW -->
-  <div id="withdraw" class="section">
 
-    <button class="back" onclick="showSection('home')">
-      ← Back
-    </button>
+<!-- DEPOSIT -->
+<div id="deposit" class="section">
 
-    <div class="card">
+  <button class="back" onclick="showSection('home')">
+    ← Back
+  </button>
 
-      <h2>💳 Withdraw</h2>
+  <div class="card">
 
-      <br>
+    <h2>📥 Deposit USDT</h2>
 
-      <p class="notice">
-        Withdrawals are configured for <b>USDT BEP20</b>.
-      </p>
+    <p class="deposit-network">
+      ● USDT BEP20 (BSC)
+    </p>
 
-      <br>
+    <img
+      class="qr"
+      src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=0xc89c82d9fa31a5cc1c561accfc1a1d85e0f0d7bc"
+      alt="USDT BEP20 QR Code"
+    >
 
-      <label>
-        USDT BEP20 Wallet Address
-      </label>
+    <p class="notice">
+      Send USDT only through the <b>BEP20 / BSC</b> network.
+    </p>
 
-      <input
-        id="wallet"
-        type="text"
-        placeholder="Enter your BEP20 wallet address"
-      >
-
-      <label>
-        Amount (STAR)
-      </label>
-
-      <input
-        id="amount"
-        type="number"
-        min="0"
-        step="0.000001"
-        placeholder="Enter amount"
-      >
-
-      <button class="action" onclick="requestWithdraw()">
-        Submit Withdrawal
-      </button>
-
-      <div id="withdrawMessage" class="success"></div>
-
-      <p class="notice">
-        Minimum withdrawal and actual blockchain transfer will be configured
-        later in the backend.
-      </p>
-
+    <div class="address" id="depositAddress">
+      0xc89c82d9fa31a5cc1c561accfc1a1d85e0f0d7bc
     </div>
 
-  </div>
-
-
-  <!-- EARNINGS -->
-  <div id="earnings" class="section">
-
-    <button class="back" onclick="showSection('home')">
-      ← Back
+    <button class="action" onclick="copyDepositAddress()">
+      📋 Copy Deposit Address
     </button>
 
-    <div class="card">
+    <div id="depositMessage" class="success"></div>
 
-      <h2>📊 My Earnings</h2>
-
-      <br>
-
-      <p>Total STAR earned:</p>
-
-      <h2 id="earningsTotal">
-        0.000000 STAR
-      </h2>
-
-      <br>
-
-      <p class="notice">
-        Current StarCoin price: $0.50
-      </p>
-
-    </div>
+    <p class="notice">
+      ⚠️ Sending through another network may result in loss of funds.
+    </p>
 
   </div>
 
 </div>
 
 
+<!-- REFERRAL -->
+<div id="referral" class="section">
+
+  <button class="back" onclick="showSection('home')">
+    ← Back
+  </button>
+
+  <div class="card">
+
+    <h2>👥 Referral</h2>
+    <br>
+
+    <p>
+      Invite friends and grow your STAR COIN community.
+    </p>
+
+    <div class="refbox" id="refLink">
+      Loading referral link...
+    </div>
+
+    <button class="action" onclick="copyReferral()">
+      📋 Copy Referral Link
+    </button>
+
+    <div id="copyMessage" class="success"></div>
+
+  </div>
+
+</div>
+
+
+<!-- WITHDRAW -->
+<div id="withdraw" class="section">
+
+  <button class="back" onclick="showSection('home')">
+    ← Back
+  </button>
+
+  <div class="card">
+
+    <h2>💳 Withdraw</h2>
+
+    <br>
+
+    <p class="notice">
+      Withdrawals are configured for <b>USDT BEP20</b>.
+    </p>
+
+    <br>
+
+    <label>USDT BEP20 Wallet Address</label>
+
+    <input
+      id="wallet"
+      type="text"
+      placeholder="Enter your BEP20 wallet address"
+    >
+
+    <label>Amount (STAR)</label>
+
+    <input
+      id="amount"
+      type="number"
+      min="0"
+      step="0.000001"
+      placeholder="Enter amount"
+    >
+
+    <button class="action" onclick="requestWithdraw()">
+      Submit Withdrawal
+    </button>
+
+    <div id="withdrawMessage" class="success"></div>
+
+    <p class="notice">
+      Minimum withdrawal and blockchain transfer will be configured later.
+    </p>
+
+  </div>
+
+</div>
+
+
+<!-- EARNINGS -->
+<div id="earnings" class="section">
+
+  <button class="back" onclick="showSection('home')">
+    ← Back
+  </button>
+
+  <div class="card">
+
+    <h2>📊 My Earnings</h2>
+
+    <br>
+
+    <p>Total STAR earned:</p>
+
+    <h2 id="earningsTotal">
+      0.000000 STAR
+    </h2>
+
+    <br>
+
+    <p class="notice">
+      Current STAR price: $0.50
+    </p>
+
+  </div>
+
+</div>
+
+</div>
+
+
 <script>
 
-  const tg = window.Telegram.WebApp;
+const tg = window.Telegram.WebApp;
 
-  tg.ready();
-  tg.expand();
+tg.ready();
+tg.expand();
 
-  const COIN_PRICE = 0.50;
+const COIN_PRICE = 0.50;
 
-  const DEPOSIT_ADDRESS =
-    "0xc89c82d9fa31a5cc1c561accfc1a1d85e0f0d7bc";
+const DEPOSIT_ADDRESS =
+"0xc89c82d9fa31a5cc1c561accfc1a1d85e0f0d7bc";
 
-  let balance =
-    Number(localStorage.getItem("star_balance") || 0);
+let balance =
+Number(localStorage.getItem("star_balance") || 0);
 
-  let today =
-    Number(localStorage.getItem("star_today") || 0);
+let today =
+Number(localStorage.getItem("star_today") || 0);
 
-  let mining = false;
+let mining = false;
 
-  let miningInterval = null;
-
-
-  function saveData() {
-
-    localStorage.setItem(
-      "star_balance",
-      balance
-    );
-
-    localStorage.setItem(
-      "star_today",
-      today
-    );
-
-  }
+let miningInterval = null;
 
 
-  function updateUI() {
+function saveData(){
 
-    document.getElementById("balance").textContent =
-      balance.toFixed(6);
+  localStorage.setItem(
+    "star_balance",
+    balance
+  );
 
-    document.getElementById("balance2").textContent =
-      balance.toFixed(6);
+  localStorage.setItem(
+    "star_today",
+    today
+  );
 
-    document.getElementById("today").textContent =
-      today.toFixed(6);
-
-    document.getElementById("usd").textContent =
-      "$" + (balance * COIN_PRICE).toFixed(2);
-
-    document.getElementById("earningsTotal").textContent =
-      balance.toFixed(6) + " STAR";
-
-  }
+}
 
 
-  function showSection(id) {
+function updateUI(){
 
-    document.querySelectorAll(".section").forEach(
-      function(section) {
+  document.getElementById("balance")
+    .textContent = balance.toFixed(6);
 
-        section.classList.remove("active");
+  document.getElementById("balance2")
+    .textContent = balance.toFixed(6);
 
-      }
-    );
+  document.getElementById("today")
+    .textContent = today.toFixed(6);
 
-    document.getElementById(id).classList.add("active");
+  document.getElementById("usd")
+    .textContent =
+    "$" + (balance * COIN_PRICE).toFixed(2);
 
-    window.scrollTo(0, 0);
+  document.getElementById("earningsTotal")
+    .textContent =
+    balance.toFixed(6) + " STAR";
 
-  }
+}
 
 
-  /* MINING */
+function showSection(id){
 
   document
-    .getElementById("mineButton")
-    .addEventListener("click", function() {
+    .querySelectorAll(".section")
+    .forEach(function(section){
 
-      if (mining) return;
+      section.classList.remove("active");
 
-      mining = true;
+    });
 
-      const button =
-        document.getElementById("mineButton");
+  document
+    .getElementById(id)
+    .classList.add("active");
 
-      const timer =
-        document.getElementById("timer");
+  window.scrollTo(0,0);
 
-      button.disabled = true;
+}
 
-      button.textContent =
-        "⛏️ MINING...";
 
-      let seconds = 60;
+document
+.getElementById("mineButton")
+.addEventListener("click",function(){
+
+  if(mining) return;
+
+  mining = true;
+
+  const button =
+    document.getElementById("mineButton");
+
+  const timer =
+    document.getElementById("timer");
+
+  button.disabled = true;
+
+  button.textContent =
+    "⛏️ MINING...";
+
+  let seconds = 60;
+
+  timer.textContent =
+    "Mining active — " +
+    seconds +
+    " seconds remaining";
+
+
+  miningInterval =
+    setInterval(function(){
+
+      balance += 0.000100;
+
+      today += 0.000100;
+
+      saveData();
+
+      updateUI();
+
+      seconds--;
 
       timer.textContent =
         "Mining active — " +
@@ -619,206 +667,155 @@
         " seconds remaining";
 
 
-      miningInterval =
-        setInterval(function() {
+      if(seconds <= 0){
 
-          balance += 0.000100;
+        clearInterval(miningInterval);
 
-          today += 0.000100;
+        miningInterval = null;
 
-          saveData();
+        mining = false;
 
-          updateUI();
+        button.disabled = false;
 
-          seconds--;
+        button.textContent =
+          "⛏️ START MINING";
 
-          timer.textContent =
-            "Mining active — " +
-            seconds +
-            " seconds remaining";
+        timer.textContent =
+          "Mining complete — start again";
 
+      }
 
-          if (seconds <= 0) {
+    },1000);
 
-            clearInterval(miningInterval);
-
-            miningInterval = null;
-
-            mining = false;
-
-            button.disabled = false;
-
-            button.textContent =
-              "⛏️ START MINING";
-
-            timer.textContent =
-              "Mining complete — start again";
-
-          }
-
-        }, 1000);
-
-    });
+});
 
 
-  /* COPY DEPOSIT ADDRESS */
+function copyDepositAddress(){
 
-  function copyDepositAddress() {
+  const message =
+    document.getElementById("depositMessage");
 
-    const address =
-      DEPOSIT_ADDRESS;
+  if(navigator.clipboard){
 
-    if (navigator.clipboard) {
-
-      navigator.clipboard
-        .writeText(address)
-        .then(function() {
-
-          document.getElementById(
-            "depositMessage"
-          ).textContent =
-            "✅ Deposit address copied.";
-
-        })
-        .catch(function() {
-
-          document.getElementById(
-            "depositMessage"
-          ).textContent =
-            "Please copy the address manually.";
-
-        });
-
-    } else {
-
-      document.getElementById(
-        "depositMessage"
-      ).textContent =
-        "Please copy the address manually.";
-
-    }
-
-  }
-
-
-  /* COPY REFERRAL */
-
-  function copyReferral() {
-
-    const link =
-      document.getElementById(
-        "refLink"
-      ).textContent;
-
-    if (navigator.clipboard) {
-
-      navigator.clipboard.writeText(link);
-
-    }
-
-    document.getElementById(
-      "copyMessage"
-    ).textContent =
-      "Referral link copied.";
-
-  }
-
-
-  /* WITHDRAW */
-
-  function requestWithdraw() {
-
-    const wallet =
-      document.getElementById(
-        "wallet"
-      ).value.trim();
-
-    const amount =
-      Number(
-        document.getElementById(
-          "amount"
-        ).value
-      );
-
-    const message =
-      document.getElementById(
-        "withdrawMessage"
-      );
-
-
-    if (!wallet) {
-
-      message.textContent =
-        "Please enter your BEP20 wallet address.";
-
-      return;
-
-    }
-
-
-    if (!amount || amount <= 0) {
-
-      message.textContent =
-        "Please enter a valid amount.";
-
-      return;
-
-    }
-
-
-    if (amount > balance) {
-
-      message.textContent =
-        "Insufficient STAR balance.";
-
-      return;
-
-    }
-
+    navigator.clipboard.writeText(
+      DEPOSIT_ADDRESS
+    );
 
     message.textContent =
-      "Withdrawal request recorded for review.";
+      "✅ Deposit address copied.";
+
+  }else{
+
+    message.textContent =
+      "Copy the address manually.";
+
+  }
+
+}
+
+
+function copyReferral(){
+
+  const link =
+    document.getElementById("refLink").textContent;
+
+  if(navigator.clipboard){
+
+    navigator.clipboard.writeText(link);
+
+  }
+
+  document.getElementById("copyMessage")
+    .textContent =
+    "✅ Referral link copied.";
+
+}
+
+
+function requestWithdraw(){
+
+  const wallet =
+    document.getElementById("wallet")
+    .value.trim();
+
+  const amount =
+    Number(
+      document.getElementById("amount").value
+    );
+
+  const message =
+    document.getElementById("withdrawMessage");
+
+
+  if(!wallet){
+
+    message.textContent =
+      "Please enter your BEP20 wallet address.";
+
+    return;
 
   }
 
 
-  /* REFERRAL LINK */
+  if(!amount || amount <= 0){
 
-  function createReferralLink() {
+    message.textContent =
+      "Please enter a valid amount.";
 
-    let userId = "user";
-
-
-    if (
-      tg.initDataUnsafe &&
-      tg.initDataUnsafe.user &&
-      tg.initDataUnsafe.user.id
-    ) {
-
-      userId =
-        tg.initDataUnsafe.user.id;
-
-    }
-
-
-    const botUsername =
-      "mystarcoinbot";
-
-
-    document.getElementById(
-      "refLink"
-    ).textContent =
-      "https://t.me/" +
-      botUsername +
-      "?start=ref_" +
-      userId;
+    return;
 
   }
 
 
-  createReferralLink();
+  if(amount > balance){
 
-  updateUI();
+    message.textContent =
+      "Insufficient STAR balance.";
+
+    return;
+
+  }
+
+
+  message.textContent =
+    "✅ Withdrawal request recorded for review.";
+
+}
+
+
+function createReferralLink(){
+
+  let userId = "user";
+
+  if(
+    tg.initDataUnsafe &&
+    tg.initDataUnsafe.user &&
+    tg.initDataUnsafe.user.id
+  ){
+
+    userId =
+      tg.initDataUnsafe.user.id;
+
+  }
+
+
+  const botUsername =
+    "MyStarCoinBot";
+
+
+  document.getElementById("refLink")
+    .textContent =
+    "https://t.me/" +
+    botUsername +
+    "?start=ref_" +
+    userId;
+
+}
+
+
+createReferralLink();
+
+updateUI();
 
 </script>
 
